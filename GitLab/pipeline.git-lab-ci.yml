@@ -1,0 +1,16 @@
+image: node:latest
+
+cache:
+  paths:
+    - node_modules/
+
+test:
+  script:
+    - yarn install --frozen-lockfile
+    - yarn run test
+
+
+deploy:
+  stage: deploy
+  script: yarn start
+  environment: production
