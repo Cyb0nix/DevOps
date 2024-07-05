@@ -1,16 +1,17 @@
-image: node:latest
+stages:          # List of stages for jobs, and their order of execution
+  - build
+  - test
+  - deploy
 
-cache:
-  paths:
-    - node_modules/
-
-test:
+build-job:       # This job runs in the build stage, which runs first.
+  stage: build
   script:
-    - yarn install --frozen-lockfile
-    - yarn run test
+    - npm install
+    - npm run build
 
+test-job:   # This job runs in the test stage.
+  stage: test    # It only starts when the job in the build stage completes successfully.
+  script:
+    - npm install
+    - npm run test
 
-deploy:
-  stage: deploy
-  script: yarn start
-  environment: production

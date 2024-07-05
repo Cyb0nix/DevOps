@@ -1,7 +1,10 @@
 version: '3.6'
+
 services:
   gitlab:
-    image: gitlab/gitlab-ce:latest
+    build:
+      context: .
+      dockerfile: Dockerfile
     container_name: gitlab
     restart: always
     hostname: 'localhost'
@@ -9,19 +12,21 @@ services:
       GITLAB_OMNIBUS_CONFIG: |
         external_url 'http://localhost:8929'
         gitlab_rails['gitlab_shell_ssh_port'] = 2424
+        gitlab_rails['root_password'] = 'rootroot'
     ports:
       - '8929:8929'
       - '443:443'
       - '2424:22'
+      - '8080:80'
     volumes:
-      - '$GITLAB_HOME/config:/etc/gitlab'
-      - '$GITLAB_HOME/logs:/var/log/gitlab'
-      - '$GITLAB_HOME/data:/var/opt/gitlab'
+
+      - './GITLAB_HOME/config:/etc/gitlab'
+      - './GITLAB_HOME/logs:/var/log/gitlab'
+      - './GITLAB_HOME/data:/var/opt/gitlab'
+      - './GITLAB_HOME/etc:/etc/gitlab-runner'
+      - '/var/run/docker.sock:/var/run/docker.sock'
     shm_size: '256m'
-    command: >
-      sh -c "apt-get update -y && apt-get upgrade -y && apt install git -y && apt install npm -y && npm install --global yarn -y &&
-        curl -L -y --output /usr/local/bin/gitlab-runner https://gitlab-runner-downloads.s3.amazonaws.com/latest/binaries/gitlab-runner-linux-amd64 &&
-        chmod +x /usr/local/bin/gitlab-runner &&
-        useradd --comment 'GitLab Runner' --create-home gitlab-runner --shell /bin/bash &&
-        gitlab-runner install --user=gitlab-runner --working-directory=/home/gitlab-runner &&
-        gitlab-runner start"
+
+volumes:
+    GITLAB_HOME:
+        driver: local
