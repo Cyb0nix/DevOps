@@ -8,25 +8,22 @@ services:
     container_name: gitlab
     restart: always
     hostname: 'localhost'
-    environment:
-      GITLAB_OMNIBUS_CONFIG: |
-        external_url 'http://localhost:8929'
-        gitlab_rails['gitlab_shell_ssh_port'] = 2424
-        gitlab_rails['root_password'] = 'rootroot'
     ports:
-      - '8929:8929'
       - '443:443'
-      - '2424:22'
-      - '8080:80'
+      - '22:22'
+      - '80:80'
     volumes:
 
-      - './GITLAB_HOME/config:/etc/gitlab'
-      - './GITLAB_HOME/logs:/var/log/gitlab'
-      - './GITLAB_HOME/data:/var/opt/gitlab'
-      - './GITLAB_HOME/etc:/etc/gitlab-runner'
+      - 'GITLAB_config:/etc/gitlab'
+      - 'GITLAB_logs:/var/log/gitlab'
+      - 'GITLAB_data:/var/opt/gitlab'
+      - 'GITLAB_etc:/etc/gitlab-runner'
       - '/var/run/docker.sock:/var/run/docker.sock'
     shm_size: '256m'
 
+
 volumes:
-    GITLAB_HOME:
-        driver: local
+    GITLAB_config:
+    GITLAB_logs:
+    GITLAB_data:
+    GITLAB_etc:
