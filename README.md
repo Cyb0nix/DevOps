@@ -24,6 +24,7 @@ docker exec -it gitlab ./init.sh
 ```
 5. You can now access the Gitlab interface on http://localhost
 
+
 6. Setup CI/CD variables
     - Go to Settings > CI/CD > Variables
     - Add the following variables:
@@ -31,6 +32,7 @@ docker exec -it gitlab ./init.sh
         - SERVER_USER: your production server username
         - SERVER_IP: your production server IP
         - SERVER_PATH: the path where you want to deploy your project
+      
 
 7. Create a Runner on the Gitlab interface and get the registration token
     - Go to Settings > CI/CD > Runners > New Project Runner
