@@ -12,8 +12,8 @@ git clone https://github.com/Cyb0nix/DevOps.git
 2. Launch the docker-compose file
 
 ```bash
-docker-compose -f DevOps/docker-compose.yml build
-docker-compose -f DevOps/gitlab/docker-compose.yml up -d
+docker-compose -f DevOps/GitLab/docker-compose.yml build
+docker-compose -f DevOps/GitLab/docker-compose.yml up -d
 ```
 3. Wait for the container to be up and running (check on http://localhost)
 
